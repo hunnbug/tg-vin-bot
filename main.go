@@ -20,7 +20,7 @@ func main() {
 		return
 	}
 
-	bot.InitHandlers(b)
+	// bot.InitHandlers(b)
 
 	log.Println("Бот начал работу")
 	b.Start()
