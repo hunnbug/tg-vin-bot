@@ -21,7 +21,6 @@ func Init() (*telebot.Bot, error) {
 	}
 
 	menu := &telebot.ReplyMarkup{ResizeKeyboard: true}
-	// selector := &telebot.ReplyMarkup{}
 
 	InitHandlers(bot, menu)
 
@@ -37,6 +36,7 @@ func InitHandlers(bot *telebot.Bot, menu *telebot.ReplyMarkup) {
 	btnTO := menu.Text("💳 Проверить диагностическую карту ТО 💳")
 	btnManager := menu.Text("☎️ Связаться с менеджером ☎️")
 	btnMessager := menu.Text("🤳 Подписаться на обновления 🤳")
+	btnShtrafi := menu.Text("💲 Проверить штрафы 💲")
 
 	menu.Reply(
 		menu.Row(btnOSAGO),
@@ -45,6 +45,7 @@ func InitHandlers(bot *telebot.Bot, menu *telebot.ReplyMarkup) {
 		menu.Row(btnMKAD),
 		menu.Row(btnManager),
 		menu.Row(btnMessager),
+		menu.Row(btnShtrafi),
 	)
 
 	bot.Handle("/hello", func(ctx telebot.Context) error {
@@ -68,5 +69,8 @@ func InitHandlers(bot *telebot.Bot, menu *telebot.ReplyMarkup) {
 	})
 	bot.Handle(&btnMessager, func(ctx telebot.Context) error {
 		return ctx.Send("Ты нажал на подписку!")
+	})
+	bot.Handle(&btnShtrafi, func(ctx telebot.Context) error {
+		return ctx.Send("Ты нажал на штрафы!")
 	})
 }
