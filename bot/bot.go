@@ -1,10 +1,9 @@
 package bot
 
 import (
-	"fmt"
 	"log"
 	"os"
-	"tgbot/models"
+	"tgbot/handlers"
 	"time"
 
 	"gopkg.in/telebot.v4"
@@ -32,40 +31,8 @@ func Init() (*telebot.Bot, error) {
 
 func InitHandlers(bot *telebot.Bot, menu *telebot.ReplyMarkup) {
 
-	bot.Handle("/hello", func(ctx telebot.Context) error {
-		return ctx.Send("Привет!", menu)
-	})
-
-	bot.Handle("/start", func(ctx telebot.Context) error {
-		err := ctx.Send("Привет! Это бот для проверки информации об автомобиле по ВИН номеру")
-		if err != nil {
-			log.Println(err)
-		}
-		err = ctx.Send("Отправьте ваш ВИН ниже. (ВИН номер не может содержать русских букв, а так же букв O, I, Q)")
-
-		return err
-	})
-
-	bot.Handle(telebot.OnText, func(ctx telebot.Context) error {
-		msg := ctx.Message()
-
-		newUser := models.CreateUser(msg.Sender.FirstName, msg.Sender.LastName, msg.Sender.Username)
-		VIN := msg.Text
-
-		if models.IsVIN(VIN) {
-			return ctx.Send(fmt.Sprintf(
-				"%s %s. Ваш ВИН валиден, информация по нему предоставлена ниже:",
-				newUser.FirstName(),
-				newUser.LastName(),
-			))
-		} else {
-			return ctx.Send(fmt.Sprintf(
-				"%s %s. Ваш ВИН невалиден, попробуйте другой.\nVIN должен состоять из 17 латинских букв и цифр, не содержать букв O, I, Q",
-				newUser.FirstName(),
-				newUser.LastName(),
-			))
-		}
-	})
+	bot.Handle("/start", handlers.HandleStart)
+	bot.Handle(telebot.OnText, handlers.HandleVINSend)
 
 	//19XFB2650DE800899
 
