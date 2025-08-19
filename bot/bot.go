@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"tgbot/models"
 	"time"
 
 	"gopkg.in/telebot.v4"
@@ -47,15 +48,23 @@ func InitHandlers(bot *telebot.Bot, menu *telebot.ReplyMarkup) {
 
 	bot.Handle(telebot.OnText, func(ctx telebot.Context) error {
 		msg := ctx.Message()
-		user := msg.Sender
 
-		return ctx.Send(fmt.Sprintf(
-			"Вы написали: %s\nВы: %s %s %s",
-			msg.Text,
-			user.FirstName,
-			user.LastName,
-			user.Username,
-		))
+		newUser := models.CreateUser(msg.Sender.FirstName, msg.Sender.LastName, msg.Sender.Username)
+		VIN := msg.Text
+
+		if models.IsVIN(VIN) {
+			return ctx.Send(fmt.Sprintf(
+				"%s %s. Ваш ВИН валиден, информация по нему предоставлена ниже:",
+				newUser.FirstName(),
+				newUser.LastName(),
+			))
+		} else {
+			return ctx.Send(fmt.Sprintf(
+				"%s %s. Ваш ВИН невалиден, попробуйте другой.\nVIN должен состоять из 17 латинских букв и цифр, не содержать букв O, I, Q",
+				newUser.FirstName(),
+				newUser.LastName(),
+			))
+		}
 	})
 
 	//19XFB2650DE800899

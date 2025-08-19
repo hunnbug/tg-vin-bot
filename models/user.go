@@ -17,3 +17,11 @@ func (u *User) LastName() string {
 func (u *User) UserName() string {
 	return u.userName
 }
+
+func CreateUser(firstName string, lastName string, userName string) *User {
+	return &User{
+		firstName,
+		lastName,
+		userName,
+	}
+}
