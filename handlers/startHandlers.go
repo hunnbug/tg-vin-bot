@@ -9,14 +9,23 @@ import (
 )
 
 func HandleStart(ctx telebot.Context) error {
+
 	err := ctx.Send("Привет! Это бот для проверки информации об автомобиле по ВИН номеру")
 	if err != nil {
 		log.Println(err)
 	}
-	err = ctx.Send("Отправьте ваш ВИН ниже. (ВИН номер не может содержать русских букв, а так же букв O, I, Q)")
+	err = ctx.Send("Отправьте ваш ВИН ниже. (ВИН номер не может содержать русских букв, а так же латинских букв O, I, Q)")
 
 	return err
 }
+
+// Поменять на актуальные значения
+const (
+	Lightweight = "Легковая"
+	Gazel       = "Легковая газель"
+	Taxi        = "Такси"
+	Highweight  = "Грузовой"
+)
 
 func HandleVINSend(ctx telebot.Context) error {
 	msg := ctx.Message()
