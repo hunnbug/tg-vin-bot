@@ -31,7 +31,6 @@ const (
 func HandleVINSend(ctx telebot.Context) error {
 	msg := ctx.Message()
 
-	newUser := models.CreateUser(msg.Sender.FirstName, msg.Sender.LastName, msg.Sender.Username)
 	VIN := msg.Text
 
 	if models.IsVIN(VIN) {
@@ -47,7 +46,7 @@ func HandleVINSend(ctx telebot.Context) error {
 			return ctx.Send("произошла ошибка сервера, попробуйте снова в другой раз")
 		}
 
-		err = ctx.Send(fmt.Sprintf("%s %s. Информация найдена:\n", newUser.FirstName(), newUser.LastName()))
+		err = ctx.Send(fmt.Sprintf("%s %s. Информация найдена:\n", msg.Sender.FirstName, msg.Sender.LastName))
 		if err != nil {
 			return err
 		}
@@ -63,8 +62,20 @@ func HandleVINSend(ctx telebot.Context) error {
 	} else {
 		return ctx.Send(fmt.Sprintf(
 			"%s %s. Ваш ВИН невалиден.\nVIN должен состоять из 17 латинских букв и цифр, не содержать букв O, I, Q",
-			newUser.FirstName(),
-			newUser.LastName(),
+			msg.Sender.FirstName,
+			msg.Sender.LastName,
 		))
 	}
+}
+
+func HandleRegNumberSend(ctx telebot.Context) error {
+
+	msg := ctx.Message()
+	RegNumber := msg.Text
+
+	if models.IsRegNumber(RegNumber) {
+
+	}
+
+	return nil
 }

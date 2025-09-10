@@ -15,7 +15,7 @@ const BAD_TERM string = "Период использования транспо�
 
 func OSAGORequest(vin string) ([]string, error) {
 
-	baseUrl := os.Getenv("API_URL")
+	baseUrl := os.Getenv("API_OSAGO_URL")
 
 	params := url.Values{}
 	params.Add("type", "osago")
