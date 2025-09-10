@@ -1,0 +1,32 @@
+{
+    "status": 200,
+    "count": 1,
+    "rez": [
+        {
+            "numberID": 1,
+            "seria": "ТТТ",
+            "nomer": "7050281429",
+            "orgosago": "Публичное акционерное общество Страховая Компания \"Росгосстрах\"",
+            "status": "Прекратил действие",
+            "term": "Период использования транспортного средства равен сроку страхования. Дата, на которую запрошены сведения, не входит в период использования транспортного средства",
+            "termStart": null,
+            "termStop": null,
+            "startPolis": null,
+            "stopPolis": null,
+            "brandmodel": "Honda Civic",
+            "regnum": "",
+            "vin": "19XFB2650DE8*****",
+            "dopbelarus": "Нет"
+        }
+    ],
+    "filters": {
+        "date": "10.09.2025"
+    },
+    "inquiry": {
+        "price": 0.5,
+        "balance": 1997.5,
+        "credit": 0,
+        "speed": 5,
+        "attempts": 1
+    }
+}

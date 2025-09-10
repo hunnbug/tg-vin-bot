@@ -12,7 +12,7 @@ import (
 func Init() (*telebot.Bot, error) {
 
 	settings := telebot.Settings{
-		Token:  os.Getenv("TOKEN"),
+		Token:  os.Getenv("BOT_TOKEN"),
 		Poller: &telebot.LongPoller{Timeout: time.Second * 5},
 	}
 
