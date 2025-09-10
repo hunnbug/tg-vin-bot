@@ -36,49 +36,30 @@ func HandleVINSend(ctx telebot.Context) error {
 
 	if models.IsVIN(VIN) {
 
-		ctx.Send("Посылаем запрос")
+		err := ctx.Send("Посылаем запрос")
+		if err != nil {
+			return err
+		}
 
-		osago, err := infrastructure.OSAGORequest(VIN)
+		messages, err := infrastructure.OSAGORequest(VIN)
 		if err != nil {
 			log.Println("при отправке запроса на получение ОСАГО произошла ошибка:", err)
 			return ctx.Send("произошла ошибка сервера, попробуйте снова в другой раз")
 		}
 
-		message := fmt.Sprintf(`%s %s. Ваш ВИН валиден, информация по нему предоставлена ниже:
-	📋 Информация о полисе ОСАГО:
-			• Серия и номер: %s %s
-			• Страховая компания: %s
-			• Статус: %s
+		err = ctx.Send(fmt.Sprintf("%s %s. Информация найдена:\n", newUser.FirstName(), newUser.LastName()))
+		if err != nil {
+			return err
+		}
 
-	📅 Сроки действия:
-			• Период использования: %s
-			→ Начало использования: %s
-			→ Окончание использования: %s
-			• Действие договора: с %s по %s
+		for _, message := range messages {
+			err := ctx.Send(message)
+			if err != nil {
+				return err
+			}
+		}
 
-	🚗 Информация об автомобиле:
-			• Марка и модель: %s
-			• Гос. номер: %s
-			• VIN: %s
-
-	🌍 Расширение на Беларусь: %s`,
-			newUser.FirstName(),
-			newUser.LastName(),
-			osago.Seria,
-			osago.Nomer,
-			osago.OrgOsago,
-			osago.Status,
-			osago.Term,
-			osago.TermStart,
-			osago.TermStop,
-			osago.StartPolis,
-			osago.StopPolis,
-			osago.BrandModel,
-			osago.RegNum,
-			osago.VIN,
-			osago.DopBelarus,
-		)
-		return ctx.Send(message)
+		return ctx.Send("Вы можете продолжить работу с ботом, для продолжения работы отправьте VIN номер авто")
 	} else {
 		return ctx.Send(fmt.Sprintf(
 			"%s %s. Ваш ВИН невалиден.\nVIN должен состоять из 17 латинских букв и цифр, не содержать букв O, I, Q",

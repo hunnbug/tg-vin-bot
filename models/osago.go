@@ -16,6 +16,5 @@ type OSAGO struct {
 	StopPolis  string `json:"stopPolis"`
 	BrandModel string `json:"brandmodel"`
 	RegNum     string `json:"regnum"`
-	VIN        string `json:"vin"`
 	DopBelarus string `json:"dopbelarus"`
 }
